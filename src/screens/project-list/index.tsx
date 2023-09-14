@@ -8,12 +8,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 function ProjectListScreen() {
 	const [list, setList] = useState([]);
-	const [users, setUsers] = useState([
-		{
-			name: 'joel',
-			personId: 1,
-		},
-	]);
+	const [users, setUsers] = useState([]);
 	const [param, setParam] = useState({
 		name: '',
 		personId: '',
