@@ -1,42 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import * as qs from 'qs';
-import SearchPanel from './search-panel';
-import List from './list';
-import { cleanObject, useDebounce, useMount } from 'utils';
+import React from "react";
+import { SearchPanel } from "screens/project-list/search-panel";
+import { List } from "screens/project-list/list";
+import { useEffect, useState } from "react";
+import { cleanObject, useDebounce, useMount } from "../../utils";
+import * as qs from "qs";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ProjectListScreen() {
-	const [list, setList] = useState([]);
-	const [users, setUsers] = useState([]);
-	const [param, setParam] = useState({
-		name: '',
-		personId: '',
-	});
-	const debouncedParam = useDebounce(param, 500);
-	useMount(() => {
-		fetch(`${apiUrl}/users`).then(async (response) => {
-			if (response.ok) {
-				setUsers(await response.json());
-			}
-		});
-	});
+export const ProjectListScreen = () => {
+  const [users, setUsers] = useState([]);
 
-	useEffect(() => {
-		fetch(
-			`${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`,
-		).then(async (response) => {
-			if (response.ok) {
-				setList(await response.json());
-			}
-		});
-	}, [debouncedParam]);
-	return (
-		<>
-			<SearchPanel param={param} setParam={setParam} users={users} />
-			<List list={list} users={users} />
-		</>
-	);
-}
+  const [param, setParam] = useState({
+    name: "",
+    personId: "",
+  });
+  const debouncedParam = useDebounce(param, 200);
+  const [list, setList] = useState([]);
 
-export default ProjectListScreen;
+  useEffect(() => {
+    fetch(
+      `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
+    ).then(async (response) => {
+      if (response.ok) {
+        setList(await response.json());
+      }
+    });
+  }, [debouncedParam]);
+
+  useMount(() => {
+    fetch(`${apiUrl}/users`).then(async (response) => {
+      if (response.ok) {
+        setUsers(await response.json());
+      }
+    });
+  });
+
+  return (
+    <div>
+      <SearchPanel users={users} param={param} setParam={setParam} />
+      <List users={users} list={list} />
+    </div>
+  );
+};
