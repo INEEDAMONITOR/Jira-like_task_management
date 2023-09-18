@@ -1,14 +1,16 @@
-import { logout } from "auth-provider";
-import * as React from "react";
-import { ProjectListScreen } from "screens/project-list";
+import { Button } from 'antd';
+import { useAuth } from 'context/auth-context';
+import * as React from 'react';
+import { ProjectListScreen } from 'screens/project-list';
 
 function AuthenticatedApp() {
-  return (
-    <div>
-      <button onClick={logout}>Logout</button>
-      <ProjectListScreen />
-    </div>
-  );
+	const { logout } = useAuth();
+	return (
+		<div>
+			<Button onClick={logout}>Logout</Button>
+			<ProjectListScreen />
+		</div>
+	);
 }
 
 export default AuthenticatedApp;

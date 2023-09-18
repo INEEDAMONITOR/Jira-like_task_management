@@ -1,0 +1,64 @@
+@startuml
+  
+  package auth-provider.ts {
+    class handleUserResponse{ 
+      handleUserResponse: ({ user }: \n\
+      { \n\
+        user: User; \n\
+      }) \n\
+      => User
+    }
+    class logout {}
+    class getToken{}
+    note left
+      Get token from local storage
+    end note
+    class export {}
+
+    rectangle   {
+      class register {
+        register: ( data: { \n\
+          username: string; \n\
+          password: string; \n\
+        })  \n\
+        => Promise<User>
+      }
+      class login{
+        login: ( data: { \n\
+          username: string; \n\
+          password: string; \n\
+        })  \n\
+        => Promise<User>
+      }
+    }
+   
+
+    
+    
+
+
+    login -.-> handleUserResponse
+    register -.-> handleUserResponse
+
+
+    export -.-> register
+    export -.-> logout
+    export -.-> login
+    export -.-> getToken
+
+    note left of handleUserResponse
+      store data into local storage
+      and return the `user`
+    end note
+  }
+
+  note as noteLoginRegister
+    when success: 
+    store the token in the local storage
+    use handleUserResponse
+  end note
+  login .. noteLoginRegister 
+  register .. noteLoginRegister
+
+
+@enduml

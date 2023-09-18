@@ -1,0 +1,56 @@
+@startuml
+  
+package auth-provider.ts {
+    class handleUserResponse{}
+    class logout {}
+    class getToken{}
+    class register {}
+    class login{}
+    login -.-> handleUserResponse
+    register -.-> handleUserResponse
+}
+
+package auth-context.tsx {
+    class AuthProvider {
+        + AuthProvider: ({children}) => \n\
+        <AuthContext.Provider children={children} value={{ user, login, register, logout }} />
+    }
+    class useAuth {
+        + user
+        + login()
+        + register()
+        + logout()
+    }
+    class bootstrapUser {}
+    AuthProvider -.-> bootstrapUser 
+    AuthProvider -.-> login
+    AuthProvider -.-> register
+    AuthProvider -.-> logout
+
+    context -.-> AuthProvider: user\n login\n register\n logout
+
+    useAuth -.-> context
+}
+
+package unauthenticated-app.tsx {
+    class LoginScreen {}
+    class RegisterScreen{}
+    LoginScreen -.-> useAuth: login()
+    RegisterScreen -.-> useAuth: register()
+}
+
+package Index.tsx {
+    class AppProviders{}
+    package App.tsx {
+        class App {
+            + UnauthenticatedApp
+            + AuthenticatedApp
+        }
+    }
+    AppProviders -.-> AuthProvider
+    App.tsx -.-> AppProviders
+    App -.-> "unauthenticated-app.tsx": UnauthenticatedApp
+
+}
+
+@enduml
