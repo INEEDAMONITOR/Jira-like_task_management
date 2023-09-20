@@ -1,29 +1,45 @@
 import React, { useState } from 'react';
 import { LoginScreen } from './login';
 import { RegisterScreen } from './register';
-import { Button, Card, Divider } from 'antd';
+import { Button, Card, Divider, Typography } from 'antd';
 import styled from '@emotion/styled';
 import logo from 'asset/logo.svg';
 import left from 'asset/left.svg';
 import right from 'asset/right.svg';
 export const UnauthenticatedApp = () => {
 	const [isRegister, setIsRegister] = useState(false);
+	const [error, setError] = useState<Error | null>(null);
 	return (
 		<Background>
 			<Container>
 				<Header />
+
 				<ShadowCard>
 					<Title>Please {isRegister ? 'Sign UP' : 'Sign In'}</Title>
-					{isRegister ? <RegisterScreen /> : <LoginScreen />}
+
+					{error ? (
+						<Typography.Text type="danger">
+							{error.message}
+						</Typography.Text>
+					) : (
+						<></>
+					)}
+					{isRegister ? (
+						<RegisterScreen onError={setError} />
+					) : (
+						<LoginScreen onError={setError} />
+					)}
 					<Divider />
-					{isRegister ? 'Have an account? ' : ' '}{' '}
-					<a
+
+					{isRegister ? 'Have an account? ' : ' '}
+					<Button
+						type="link"
 						onClick={() => {
 							setIsRegister((prev) => !prev);
 						}}
 					>
 						{isRegister ? 'Sign In' : 'Sign UP'}
-					</a>
+					</Button>
 				</ShadowCard>
 			</Container>
 		</Background>

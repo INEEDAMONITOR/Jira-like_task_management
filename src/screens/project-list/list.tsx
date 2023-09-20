@@ -1,23 +1,25 @@
-import { Table } from 'antd';
+import { Table, TableProps } from 'antd';
+import dayjs from 'dayjs';
 import React from 'react';
 import { User } from 'screens/project-list/search-panel';
 
-interface Project {
+export interface Project {
 	id: string;
 	name: string;
 	personId: string;
 	pin: boolean;
 	organization: string;
+	created: number;
 }
 
-interface ListProps {
-	list: Project[];
+interface ListProps extends TableProps<Project> {
 	users: User[];
 }
 
-export const List = ({ list, users }: ListProps) => {
+export const List = ({ users, ...props }: ListProps) => {
 	return (
 		<Table
+			{...props}
 			pagination={false}
 			columns={[
 				{
@@ -27,21 +29,40 @@ export const List = ({ list, users }: ListProps) => {
 					sorter: (a, b) => a.name.localeCompare(b.name),
 				},
 				{
+					title: 'Department',
+					dataIndex: 'organization',
+					key: 'organization',
+				},
+				{
 					title: 'Manager',
-					render(value, project) {
+					render(_, project) {
 						return (
 							<span>
 								{users.find(
 									(user) => user.id === project.personId
 								)?.name || 'Unknown'}
-								{}
 							</span>
 						);
 					},
 					sorter: (a, b) => a.name.localeCompare(b.name),
 				},
+				{
+					title: 'Created Time',
+					render(_, project) {
+						return (
+							<span>
+								{project.created
+									? dayjs(project.created).format(
+											'MMM DD, YYYY'
+									  )
+									: 'Unknown'}
+							</span>
+						);
+					},
+					key: 'created-time',
+					sorter: (a, b) => a.created - b.created,
+				},
 			]}
-			dataSource={list}
 		/>
 	);
 	// return (

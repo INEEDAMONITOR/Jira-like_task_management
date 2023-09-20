@@ -3,10 +3,15 @@ import React, { FormEvent } from 'react';
 import { cleanObject } from 'utils';
 import { Button, Form, Input } from 'antd';
 import { LongButton } from 'unauthenticated-app';
+import { useAsync } from 'utils/use-async';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export const LoginScreen = () => {
+export const LoginScreen = ({
+	onError,
+}: {
+	onError: React.Dispatch<React.SetStateAction<Error | null>>;
+}) => {
 	// const login = (param: { username: string; password: string }) => {
 	//   fetch(`${apiUrl}/register`, {
 	//     method: "POST",
@@ -21,7 +26,7 @@ export const LoginScreen = () => {
 	// };
 
 	const { login, user } = useAuth();
-
+	const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 	// const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 	// 	event.preventDefault();
 	// 	const username = (event.currentTarget.elements[0] as HTMLInputElement)
@@ -31,7 +36,7 @@ export const LoginScreen = () => {
 	// 	login({ username, password });
 	// };
 	const handleSubmit = (values: { username: string; password: string }) => {
-		login(values);
+		run(login(values).catch(onError));
 	};
 
 	return (
@@ -50,7 +55,11 @@ export const LoginScreen = () => {
 				{/* <label htmlFor="password">Password</label> */}
 				<Input placeholder="Password" type="password" id={'password'} />
 			</Form.Item>
-			<LongButton htmlType={'submit'} type={'primary'}>
+			<LongButton
+				loading={isLoading}
+				htmlType={'submit'}
+				type={'primary'}
+			>
 				Sign In
 			</LongButton>
 		</Form>
