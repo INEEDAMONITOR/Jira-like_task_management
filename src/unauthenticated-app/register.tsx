@@ -29,12 +29,7 @@ export const RegisterScreen = ({
 		password: string;
 		confirmPassword: string;
 	}) => {
-		if (values.password !== confirmPassword) {
-			setConfirmPassword(false);
-		} else {
-			setConfirmPassword(true);
-			register(values).catch(onError);
-		}
+		register(values).catch(onError);
 	};
 
 	return (

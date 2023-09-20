@@ -6,43 +6,50 @@ import styled from '@emotion/styled';
 import logo from 'asset/logo.svg';
 import left from 'asset/left.svg';
 import right from 'asset/right.svg';
+import { useDocumentTitle } from 'utils';
 export const UnauthenticatedApp = () => {
 	const [isRegister, setIsRegister] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
+	// useDocumentTitle(isRegister ? 'Sign Up' : 'Sign In');
 	return (
-		<Background>
-			<Container>
-				<Header />
+		<Container>
+			<Header />
+			<Background />
+			<Button
+				onClick={() => {
+					throw new Error('Click Error');
+				}}
+			>
+				Throw error
+			</Button>
+			<ShadowCard>
+				<Title>Please {isRegister ? 'Sign UP' : 'Sign In'}</Title>
 
-				<ShadowCard>
-					<Title>Please {isRegister ? 'Sign UP' : 'Sign In'}</Title>
+				{error ? (
+					<Typography.Text type="danger">
+						{error.message}
+					</Typography.Text>
+				) : (
+					<></>
+				)}
+				{isRegister ? (
+					<RegisterScreen onError={setError} />
+				) : (
+					<LoginScreen onError={setError} />
+				)}
+				<Divider />
 
-					{error ? (
-						<Typography.Text type="danger">
-							{error.message}
-						</Typography.Text>
-					) : (
-						<></>
-					)}
-					{isRegister ? (
-						<RegisterScreen onError={setError} />
-					) : (
-						<LoginScreen onError={setError} />
-					)}
-					<Divider />
-
-					{isRegister ? 'Have an account? ' : ' '}
-					<Button
-						type="link"
-						onClick={() => {
-							setIsRegister((prev) => !prev);
-						}}
-					>
-						{isRegister ? 'Sign In' : 'Sign UP'}
-					</Button>
-				</ShadowCard>
-			</Container>
-		</Background>
+				{isRegister ? 'Have an account? ' : ' '}
+				<Button
+					type="link"
+					onClick={() => {
+						setIsRegister((prev) => !prev);
+					}}
+				>
+					{isRegister ? 'Sign In' : 'Sign UP'}
+				</Button>
+			</ShadowCard>
+		</Container>
 	);
 };
 
