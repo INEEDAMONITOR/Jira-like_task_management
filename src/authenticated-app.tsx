@@ -5,40 +5,58 @@ import { useAuth } from 'context/auth-context';
 import * as React from 'react';
 import { ProjectListScreen } from 'screens/project-list';
 import { ReactComponent as SoftwareLogo } from 'asset/software-logo.svg';
-function AuthenticatedApp() {
-	const { logout, user } = useAuth();
+import { Navigate, Route, RouterProvider, Routes } from 'react-router';
+import ProjectScreen from 'screens/project';
+import { createBrowserRouter } from 'react-router-dom';
+const router = createBrowserRouter([
+	{
+		path: '/projects',
+		element: <ProjectListScreen />,
+	},
+	{
+		path: '/projects/:projectID',
+		element: <ProjectScreen />,
+	},
+]);
+export default function AuthenticatedApp() {
 	return (
 		<Container>
-			<Header between={true}>
-				<HeaderLeft gap={true}>
-					<SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
-					<h3>Projects</h3>
-					<h3>Users</h3>
-				</HeaderLeft>
-				<HeaderRight>
-					<Dropdown
-						overlay={
-							<Menu>
-								<Menu.Item key={'logout'}>
-									<Button onClick={logout} type="link">
-										Logout
-									</Button>
-								</Menu.Item>
-							</Menu>
-						}
-					>
-						<Button type="link">Hi, {user?.name}</Button>
-					</Dropdown>
-				</HeaderRight>
-			</Header>
+			<PageHeader />
 			<Main>
-				<ProjectListScreen />
+				<RouterProvider router={router} />
 			</Main>
 		</Container>
 	);
 }
 
-export default AuthenticatedApp;
+type Return = Pick<ReturnType<typeof useAuth>, 'user' | 'logout'>;
+const PageHeader = () => {
+	const { logout, user } = useAuth();
+	return (
+		<Header between={true}>
+			<HeaderLeft gap={true}>
+				<SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
+				<h3>Projects</h3>
+				<h3>Users</h3>
+			</HeaderLeft>
+			<HeaderRight>
+				<Dropdown
+					overlay={
+						<Menu>
+							<Menu.Item key={'logout'}>
+								<Button onClick={logout} type="link">
+									Logout
+								</Button>
+							</Menu.Item>
+						</Menu>
+					}
+				>
+					<Button type="link">Hi, {user?.name}</Button>
+				</Dropdown>
+			</HeaderRight>
+		</Header>
+	);
+};
 
 const Container = styled.div`
 	display: grid; //	使用grid

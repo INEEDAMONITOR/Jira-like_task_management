@@ -10,18 +10,11 @@ import { useDocumentTitle } from 'utils';
 export const UnauthenticatedApp = () => {
 	const [isRegister, setIsRegister] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
-	// useDocumentTitle(isRegister ? 'Sign Up' : 'Sign In');
+	useDocumentTitle(isRegister ? 'Sign Up' : 'Sign In');
 	return (
 		<Container>
 			<Header />
 			<Background />
-			<Button
-				onClick={() => {
-					throw new Error('Click Error');
-				}}
-			>
-				Throw error
-			</Button>
 			<ShadowCard>
 				<Title>Please {isRegister ? 'Sign UP' : 'Sign In'}</Title>
 
