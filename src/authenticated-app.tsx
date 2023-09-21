@@ -5,10 +5,25 @@ import { useAuth } from 'context/auth-context';
 import * as React from 'react';
 import { ProjectListScreen } from 'screens/project-list';
 import { ReactComponent as SoftwareLogo } from 'asset/software-logo.svg';
-import { Navigate, Route, RouterProvider, Routes } from 'react-router';
+import {
+	Navigate,
+	Route,
+	Router,
+	RouterProvider,
+	Routes,
+	redirect,
+	useNavigate,
+} from 'react-router';
 import ProjectScreen from 'screens/project';
 import { createBrowserRouter } from 'react-router-dom';
+import { KanbanScreen } from 'screens/kanban';
+import EpicScreen from 'screens/epic';
+import { resetRoute } from 'utils';
 const router = createBrowserRouter([
+	{
+		path: '/',
+		element: <Navigate to={'/projects'} replace={true} />,
+	},
 	{
 		path: '/projects',
 		element: <ProjectListScreen />,
@@ -16,6 +31,16 @@ const router = createBrowserRouter([
 	{
 		path: '/projects/:projectID',
 		element: <ProjectScreen />,
+		children: [
+			{
+				path: 'kanban',
+				element: <KanbanScreen />,
+			},
+			{
+				path: 'epic',
+				element: <EpicScreen />,
+			},
+		],
 	},
 ]);
 export default function AuthenticatedApp() {
@@ -35,7 +60,14 @@ const PageHeader = () => {
 	return (
 		<Header between={true}>
 			<HeaderLeft gap={true}>
-				<SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
+				<Button
+					type="link"
+					onClick={() => {
+						resetRoute();
+					}}
+				>
+					<SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
+				</Button>
 				<h3>Projects</h3>
 				<h3>Users</h3>
 			</HeaderLeft>
