@@ -11,7 +11,7 @@ import { useProjectSearchParams } from './util';
 export const ProjectListScreen = () => {
 	useDocumentTitle('Project list', false);
 	const [params, setParams] = useProjectSearchParams();
-	const { isLoading, error, data: list } = useProjects(
+	const { isLoading, error, data: list, retry } = useProjects(
 		useDebounce(params, 200)
 	);
 	const { data: users } = useUser();
@@ -35,6 +35,7 @@ export const ProjectListScreen = () => {
 				users={users || []}
 				dataSource={list || []}
 				loading={isLoading}
+				refresh={retry}
 			/>
 		</Container>
 	);

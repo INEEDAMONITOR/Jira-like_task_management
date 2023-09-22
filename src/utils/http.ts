@@ -7,6 +7,12 @@ interface Config extends RequestInit {
 	data?: object;
 	token?: string;
 }
+/**
+ *
+ * @param endpoint
+ * @param {data, token, headers, ...customConfig}
+ * @returns
+ */
 export const http = async (
 	endpoint: string,
 	{ data, token, headers, ...customConfig }: Config = {}
@@ -19,11 +25,13 @@ export const http = async (
 		},
 		...customConfig,
 	};
+
 	if (config.method.toUpperCase() === 'GET') {
 		endpoint += `?${QueryString.stringify(data)}`;
 	} else {
 		config.body = JSON.stringify(data || {});
 	}
+
 	return window
 		.fetch(`${apiUrl}/${endpoint}`, config)
 		.then(async (response) => {
