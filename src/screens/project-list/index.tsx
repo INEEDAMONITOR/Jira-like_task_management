@@ -4,27 +4,28 @@ import { List } from 'screens/project-list/list';
 import { useState } from 'react';
 import { useDebounce, useDocumentTitle } from '../../utils';
 import styled from '@emotion/styled';
-import { Typography } from 'antd';
+import { Button, InputNumber, Select, Typography } from 'antd';
 import { useProjects } from 'utils/projects';
 import useUser from 'utils/user';
+import useUrlQueryParam from 'utils/url';
 
 export const ProjectListScreen = () => {
-	const [param, setParam] = useState({
-		name: '',
-		personId: '',
-	});
-	const debouncedParam = useDebounce(param, 200);
+	const [keys, setKeys] = useState<('name' | 'personId')[]>([
+		'name',
+		'personId',
+	]);
+	const [urlParam, setUrlParam] = useUrlQueryParam(keys);
+	const debouncedParam = useDebounce(urlParam, 200);
 	const { isLoading, error, data: list } = useProjects(debouncedParam);
 	const { data: users } = useUser();
 	useDocumentTitle('Project list', false);
 	return (
 		<Container>
 			<h1>Project list</h1>
-
 			<SearchPanel
 				users={users || []}
-				param={param}
-				setParam={setParam}
+				param={urlParam}
+				setParam={setUrlParam}
 			/>
 
 			{error ? (
@@ -41,6 +42,8 @@ export const ProjectListScreen = () => {
 		</Container>
 	);
 };
+
+ProjectListScreen.whyDidYouRender = false;
 
 const Container = styled.div`
 	padding: 3.2rem;

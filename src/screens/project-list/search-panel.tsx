@@ -22,8 +22,10 @@ interface SearchPanelProps {
 }
 
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
+	// console.log(users[0].name);
 	return (
 		<Form layout={'inline'} css={{ marginBottom: '2rem' }}>
+			{/* Input Search */}
 			<Form.Item>
 				{/*setParam(Object.assign({}, param, {name:evt.target.value}))*/}
 				<Input
@@ -38,6 +40,8 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
 					}
 				/>
 			</Form.Item>
+
+			{/* Select Box */}
 			<Form.Item>
 				<Select
 					value={param.personId}
@@ -50,7 +54,7 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
 				>
 					<Select.Option value={''}>Manager</Select.Option>
 					{users.map((user) => (
-						<Select.Option key={user.id} value={user.id}>
+						<Select.Option key={user.id} value={String(user.id)}>
 							{user.name}
 						</Select.Option>
 					))}
