@@ -1,4 +1,5 @@
 import { Select } from 'antd';
+import { log } from 'console';
 import * as React from 'react';
 import { Raw } from 'types';
 
@@ -21,12 +22,14 @@ interface IdSelectProps extends Omit<SelectProps, 'value' | 'onChange'> {
  *
  * @param props
  */
+
 export const IdSelect = (props: IdSelectProps) => {
-	const { value, onChange, defaultOptionName, options } = props;
+	const { value, onChange, defaultOptionName, options, ...restProps } = props;
 	return (
 		<Select
-			value={toNumber(value)}
+			value={options?.length ? toNumber(value) : 0}
 			onChange={(value) => onChange(toNumber(value) || undefined)}
+			{...restProps}
 		>
 			{defaultOptionName ? (
 				<Select.Option value={0}> {defaultOptionName}</Select.Option>

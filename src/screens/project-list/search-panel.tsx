@@ -2,9 +2,12 @@
 import { jsx } from '@emotion/react';
 import { Form, Input, Select } from 'antd';
 import React from 'react';
+import { Project } from './list';
+import { UserSelect } from 'components/user-select';
+import { useDebounce } from 'utils';
 
 export interface User {
-	id: string;
+	id: number;
 	name: string;
 	email: string;
 	title: string;
@@ -14,10 +17,7 @@ export interface User {
 
 interface SearchPanelProps {
 	users: User[];
-	param: {
-		name: string;
-		personId: string;
-	};
+	param: Partial<Pick<Project, 'name' | 'personId'>>;
 	setParam: (param: SearchPanelProps['param']) => void;
 }
 
@@ -43,7 +43,17 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
 
 			{/* Select Box */}
 			<Form.Item>
-				<Select
+				<UserSelect
+					defaultOptionName="Manage"
+					value={param.personId}
+					onChange={(value) =>
+						setParam({
+							...param,
+							personId: value,
+						})
+					}
+				/>
+				{/* <Select
 					value={param.personId}
 					onChange={(value) =>
 						setParam({
@@ -58,7 +68,7 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
 							{user.name}
 						</Select.Option>
 					))}
-				</Select>
+				</Select> */}
 			</Form.Item>
 		</Form>
 	);

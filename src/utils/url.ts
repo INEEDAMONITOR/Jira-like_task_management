@@ -1,14 +1,15 @@
 import { useMemo } from 'react';
-import { QueryObserver } from 'react-query';
 import { URLSearchParamsInit, useSearchParams } from 'react-router-dom';
 import { cleanObject } from 'utils';
 
 /**
  *
- * get the params in the url
+ * @param {string[]} keys - keys you want to check in the url query
  *
- * @param {string[]} keys - keys in the url
- * @return {*}
+ * @return
+ * - `params` the params in the url
+ * - `setParams` function to change the query url by give param
+ *
  */
 const useUrlQueryParam = <K extends string>(keys: K[]) => {
 	const [searchParams, setSearchParam] = useSearchParams();
@@ -22,7 +23,7 @@ const useUrlQueryParam = <K extends string>(keys: K[]) => {
 				keys.reduce((prev, key) => {
 					return { ...prev, [key]: searchParams.get(key) || '' };
 				}, {} as { [key in K]: string }),
-			[searchParams, keys]
+			[searchParams]
 		),
 		(param: Partial<{ [key in K]: unknown }>) => {
 			const obj = cleanObject({
