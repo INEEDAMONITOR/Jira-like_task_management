@@ -24,6 +24,26 @@ export const useMount = (callback: () => void) => {
 	}, []);
 };
 
+/**
+ * Pass in an object, and a collection of keys, and return the key-value pairs in the corresponding object
+ * @param {object}  `object`
+ * @param {string[]}  `keys` string array
+ * @return {object}  subset of the `object`
+ */
+export const subset = <
+	O extends { [key in string]: unknown },
+	K extends keyof O
+>(
+	object: O,
+	keys: K[]
+) => {
+	const objEntries = Object.entries(object);
+	const filteredEntries = objEntries.filter(([key]) => {
+		return keys.includes(key as K);
+	});
+	return Object.fromEntries(filteredEntries);
+};
+
 export const useDebounce = <V>(value: V, delay?: number) => {
 	const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -68,3 +88,20 @@ export const useDocumentTitle = (
 };
 
 export const resetRoute = () => (window.location.href = window.location.origin);
+
+/**
+ * Return the mount state.
+ * - `false` if not mounted or unmounted
+ * - `true` otherwise
+ * @returns The mount state of the component
+ */
+export const useMountRef = () => {
+	const mountedRef = useRef(false);
+	useEffect(() => {
+		mountedRef.current = true;
+		return () => {
+			mountedRef.current = false;
+		};
+	});
+	return mountedRef;
+};
