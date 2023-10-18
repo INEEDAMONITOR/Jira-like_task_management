@@ -22,7 +22,6 @@ interface SearchPanelProps {
 }
 
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
-	// console.log(users[0].name);
 	return (
 		<Form layout={'inline'} css={{ marginBottom: '2rem' }}>
 			{/* Input Search */}

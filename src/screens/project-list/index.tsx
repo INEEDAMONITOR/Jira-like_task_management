@@ -15,7 +15,6 @@ export const ProjectListScreen = () => {
 		useDebounce(params, 200)
 	);
 	const { data: users } = useUser();
-
 	return (
 		<Container>
 			<h1>Project list</h1>

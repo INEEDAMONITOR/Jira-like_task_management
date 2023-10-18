@@ -93,7 +93,7 @@ export const resetRoute = () => (window.location.href = window.location.origin);
  * Return the mount state.
  * - `false` if not mounted or unmounted
  * - `true` otherwise
- * @returns The mount state of the component
+ * @returns {boolean} The mount state of the component
  */
 export const useMountRef = () => {
 	const mountedRef = useRef(false);

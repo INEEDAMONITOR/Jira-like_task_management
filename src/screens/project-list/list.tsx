@@ -29,17 +29,19 @@ export const List = ({ users, refresh, ...props }: ListProps) => {
 		<Table
 			{...props}
 			pagination={false}
+			rowKey={(record) => {
+				return record.id;
+			}}
 			columns={[
 				{
 					title: <Pin checked={true} disabled={true} />,
 					dataIndex: 'pin',
-					key: 'id',
+					key: 'pin',
 					render(value, project) {
 						return (
 							<Pin
 								checked={value}
 								onCheckedChange={(pin) => {
-									console.log(pin);
 									pinChangeHandler(project.id, pin);
 								}}
 							/>
@@ -62,6 +64,7 @@ export const List = ({ users, refresh, ...props }: ListProps) => {
 				},
 				{
 					title: 'Manager',
+					key: 'personId',
 					render(_, project) {
 						return (
 							<span>
@@ -86,7 +89,7 @@ export const List = ({ users, refresh, ...props }: ListProps) => {
 							</span>
 						);
 					},
-					key: 'created-time',
+					key: 'created',
 					sorter: (a, b) => a.created - b.created,
 				},
 			]}

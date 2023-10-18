@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Button, Dropdown, Menu, Space } from 'antd';
+import { Button, Dropdown, Menu, MenuProps, Space, message } from 'antd';
 import { Row } from 'components/lib';
 import { useAuth } from 'context/auth-context';
 import * as React from 'react';
@@ -18,7 +18,7 @@ import ProjectScreen from 'screens/project';
 import { createBrowserRouter } from 'react-router-dom';
 import { KanbanScreen } from 'screens/kanban';
 import EpicScreen from 'screens/epic';
-import { resetRoute } from 'utils';
+import { resetRoute, useMount, useMountRef } from 'utils';
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -57,6 +57,19 @@ export default function AuthenticatedApp() {
 type Return = Pick<ReturnType<typeof useAuth>, 'user' | 'logout'>;
 const PageHeader = () => {
 	const { logout, user } = useAuth();
+	const items: MenuProps['items'] = [
+		{
+			label: 'logout',
+			key: 'logout',
+		},
+	];
+	const mountRef = useMountRef();
+	const onClick: MenuProps['onClick'] = ({ key }) => {
+		// Logout
+		if (mountRef.current && key === 'logout') {
+			logout();
+		}
+	};
 	return (
 		<Header between={true}>
 			<HeaderLeft gap={true}>
@@ -72,17 +85,7 @@ const PageHeader = () => {
 				<h3>Users</h3>
 			</HeaderLeft>
 			<HeaderRight>
-				<Dropdown
-					overlay={
-						<Menu>
-							<Menu.Item key={'logout'}>
-								<Button onClick={logout} type="link">
-									Logout
-								</Button>
-							</Menu.Item>
-						</Menu>
-					}
-				>
+				<Dropdown menu={{ items, onClick }}>
 					<Button type="link">Hi, {user?.name}</Button>
 				</Dropdown>
 			</HeaderRight>
@@ -91,7 +94,7 @@ const PageHeader = () => {
 };
 
 const Container = styled.div`
-	display: grid; //	使用grid
+	display: grid;
 	grid-template-rows: 6rem 1fr 6rem; // rows：1st row, 2se row, 3th row
 	height: 100 vh;
 `;
