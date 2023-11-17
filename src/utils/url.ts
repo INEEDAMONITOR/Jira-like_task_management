@@ -14,7 +14,7 @@ import { cleanObject, subset } from 'utils';
 const useUrlQueryParam = <K extends string>(keys: K[]) => {
 	const [searchParams, setSearchParam] = useSearchParams();
 	// Dependencies:
-	// 	primitive type 		✅
+	// 	prmitive type 		✅
 	// 	state				✅
 	// 	un-state object		❌ NEVER!
 	return [

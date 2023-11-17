@@ -51,7 +51,7 @@ export const useAsync = <D>(
 
 	const run = useCallback(
 		(promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
-			if (!promise || !promise.then) {
+			if (!promise?.then) {
 				throw new Error(
 					`Argument of type '${typeof promise}' is not assignable to parameter of type 'Promise<D>'`
 				);

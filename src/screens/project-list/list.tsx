@@ -1,4 +1,6 @@
-import { Rate, Table, TableProps } from 'antd';
+import { Dropdown, Menu, MenuProps, Rate, Table, TableProps } from 'antd';
+import Item from 'antd/lib/descriptions/Item';
+import { ButtonNoPadding } from 'components/lib';
 import { Pin } from 'components/pin';
 import dayjs from 'dayjs';
 import React from 'react';
@@ -18,6 +20,7 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
 	users: User[];
 	refresh?: () => void;
+	setProjectModalOpen: (isOpen: boolean) => void;
 }
 
 export const List = ({ users, refresh, ...props }: ListProps) => {
@@ -91,6 +94,43 @@ export const List = ({ users, refresh, ...props }: ListProps) => {
 					},
 					key: 'created',
 					sorter: (a, b) => a.created - b.created,
+				},
+				{
+					render(value, project) {
+						const items: MenuProps['items'] = [
+							{
+								key: '1',
+								label: (
+									<Menu>
+										<Menu.Item key={'edit'}>
+											<ButtonNoPadding
+												type={'link'}
+												onClick={() =>
+													props.setProjectModalOpen(
+														true
+													)
+												}
+											>
+												Edit
+											</ButtonNoPadding>
+										</Menu.Item>
+										<Menu.Item key={'2'}>
+											<ButtonNoPadding type={'link'}>
+												Edit
+											</ButtonNoPadding>
+										</Menu.Item>
+									</Menu>
+								),
+							},
+						];
+						return (
+							<Dropdown menu={{ items }}>
+								<ButtonNoPadding type={'link'}>
+									...
+								</ButtonNoPadding>
+							</Dropdown>
+						);
+					},
 				},
 			]}
 		/>

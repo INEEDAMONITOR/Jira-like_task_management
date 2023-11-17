@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Button, Dropdown, Menu, MenuProps, Space, message } from 'antd';
-import { Row } from 'components/lib';
+import { ButtonNoPadding, Row } from 'components/lib';
 import { useAuth } from 'context/auth-context';
 import * as React from 'react';
 import { ProjectListScreen } from 'screens/project-list';
@@ -19,43 +19,95 @@ import { createBrowserRouter } from 'react-router-dom';
 import { KanbanScreen } from 'screens/kanban';
 import EpicScreen from 'screens/epic';
 import { resetRoute, useMount, useMountRef } from 'utils';
-const router = createBrowserRouter([
-	{
-		path: '/',
-		element: <Navigate to={'/projects'} replace={true} />,
-	},
-	{
-		path: '/projects',
-		element: <ProjectListScreen />,
-	},
-	{
-		path: '/projects/:projectID',
-		element: <ProjectScreen />,
-		children: [
-			{
-				path: 'kanban',
-				element: <KanbanScreen />,
-			},
-			{
-				path: 'epic',
-				element: <EpicScreen />,
-			},
-		],
-	},
-]);
+import { useMemo, useState } from 'react';
+import ProjectModal from 'screens/project-list/project-modal';
+import ProjectPopover from 'components/projects-popover';
+
 export default function AuthenticatedApp() {
+	const [projectModalOpen, setProjectModalOpen] = useState(false);
+	const router = useMemo(
+		() =>
+			createBrowserRouter([
+				{
+					path: '/',
+					element: <Navigate to={'/projects'} replace={true} />,
+				},
+				{
+					path: '/projects',
+					element: (
+						<ProjectListScreen
+							setProjectModalOpen={setProjectModalOpen}
+						/>
+					),
+				},
+				{
+					path: '/projects/:projectID',
+					element: <ProjectScreen />,
+					children: [
+						{
+							path: 'kanban',
+							element: <KanbanScreen />,
+						},
+						{
+							path: 'epic',
+							element: <EpicScreen />,
+						},
+					],
+				},
+			]),
+		[setProjectModalOpen]
+	);
 	return (
 		<Container>
-			<PageHeader />
+			<PageHeader setProjectModalOpen={setProjectModalOpen} />
 			<Main>
 				<RouterProvider router={router} />
+				<Button
+					onClick={() => {
+						setProjectModalOpen(true);
+					}}
+				>
+					Open
+				</Button>
 			</Main>
+
+			<ProjectModal
+				projectModalOpen={projectModalOpen}
+				onClose={() => {
+					setProjectModalOpen(false);
+				}}
+			></ProjectModal>
 		</Container>
 	);
 }
 
 type Return = Pick<ReturnType<typeof useAuth>, 'user' | 'logout'>;
-const PageHeader = () => {
+const PageHeader = (props: {
+	setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
+	return (
+		<Header between={true}>
+			<HeaderLeft gap={true}>
+				<ButtonNoPadding
+					type="link"
+					onClick={() => {
+						resetRoute();
+					}}
+				>
+					<SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
+				</ButtonNoPadding>
+				<ProjectPopover
+					setProjectModalOpen={props.setProjectModalOpen}
+				/>
+				<h3>Users</h3>
+			</HeaderLeft>
+			<HeaderRight>
+				<User />
+			</HeaderRight>
+		</Header>
+	);
+};
+const User = () => {
 	const { logout, user } = useAuth();
 	const items: MenuProps['items'] = [
 		{
@@ -63,36 +115,19 @@ const PageHeader = () => {
 			key: 'logout',
 		},
 	];
-	const mountRef = useMountRef();
+	console.log(user);
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		// Logout
-		if (mountRef.current && key === 'logout') {
+		if (key === 'logout') {
 			logout();
 		}
 	};
 	return (
-		<Header between={true}>
-			<HeaderLeft gap={true}>
-				<Button
-					type="link"
-					onClick={() => {
-						resetRoute();
-					}}
-				>
-					<SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
-				</Button>
-				<h3>Projects</h3>
-				<h3>Users</h3>
-			</HeaderLeft>
-			<HeaderRight>
-				<Dropdown menu={{ items, onClick }}>
-					<Button type="link">Hi, {user?.name}</Button>
-				</Dropdown>
-			</HeaderRight>
-		</Header>
+		<Dropdown menu={{ items, onClick }}>
+			<Button type="link">Hi, {user?.name}</Button>
+		</Dropdown>
 	);
 };
-
 const Container = styled.div`
 	display: grid;
 	grid-template-rows: 6rem 1fr 6rem; // rows：1st row, 2se row, 3th row

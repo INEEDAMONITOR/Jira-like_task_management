@@ -1,6 +1,5 @@
-import { AuthProvider, useAuth } from 'context/auth-context';
+import { useAuth } from 'context/auth-context';
 import QueryString from 'qs';
-import { Provider } from 'react-redux';
 import * as auth from 'auth-provider';
 import { useCallback } from 'react';
 const apiUrl = process.env.REACT_APP_API_URL;
