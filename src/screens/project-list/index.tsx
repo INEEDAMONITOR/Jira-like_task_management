@@ -3,14 +3,12 @@ import { SearchPanel } from 'screens/project-list/search-panel';
 import { List } from 'screens/project-list/list';
 import { useDebounce, useDocumentTitle } from '../../utils';
 import styled from '@emotion/styled';
-import { Button, Typography, Row } from 'antd';
+import { Typography, Row } from 'antd';
 import { useProjects } from 'utils/projects';
 import useUser from 'utils/user';
 import { useProjectSearchParams } from './util';
 
-export const ProjectListScreen = (props: {
-	setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
 	useDocumentTitle('Project list', false);
 	const [params, setParams] = useProjectSearchParams();
 	const { isLoading, error, data: list, retry } = useProjects(
@@ -21,13 +19,7 @@ export const ProjectListScreen = (props: {
 		<Container>
 			<Row justify={'space-between'}>
 				<h1>Project list</h1>
-				<Button
-					onClick={() => {
-						props.setProjectModalOpen(true);
-					}}
-				>
-					Create Project
-				</Button>
+				{props.projectButton}
 			</Row>
 
 			<SearchPanel
@@ -47,7 +39,7 @@ export const ProjectListScreen = (props: {
 				dataSource={list ?? []}
 				loading={isLoading}
 				refresh={retry}
-				setProjectModalOpen={props.setProjectModalOpen}
+				projectButton={props.projectButton}
 			/>
 		</Container>
 	);

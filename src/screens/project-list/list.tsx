@@ -20,7 +20,7 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
 	users: User[];
 	refresh?: () => void;
-	setProjectModalOpen: (isOpen: boolean) => void;
+	projectButton: JSX.Element;
 }
 
 export const List = ({ users, refresh, ...props }: ListProps) => {
@@ -103,16 +103,7 @@ export const List = ({ users, refresh, ...props }: ListProps) => {
 								label: (
 									<Menu>
 										<Menu.Item key={'edit'}>
-											<ButtonNoPadding
-												type={'link'}
-												onClick={() =>
-													props.setProjectModalOpen(
-														true
-													)
-												}
-											>
-												Edit
-											</ButtonNoPadding>
+											{props.projectButton}
 										</Menu.Item>
 										<Menu.Item key={'2'}>
 											<ButtonNoPadding type={'link'}>

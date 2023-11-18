@@ -1,19 +1,81 @@
-import { useCallback, useState } from 'react';
+import { Dispatch, useCallback, useReducer, useState } from 'react';
 import { useMountRef } from 'utils';
+
+enum Type {
+	SetData,
+	SetError,
+	Loading,
+	Idle,
+}
+
+enum Stat {
+	IDLE = 'idle',
+	LOADING = 'loading',
+	ERROR = 'error',
+	SUCCESS = 'success',
+}
 
 interface State<D> {
 	error: Error | null;
 	data: D | null;
-	stat: 'idle' | 'loading' | 'error' | 'success';
+	stat: Stat;
 }
 
-const defaultInitialState: State<null> = {
-	stat: 'idle',
-	data: null,
-	error: null,
+type Action<D> =
+	| { error: Error; type: Type.SetError }
+	| { data: D | null; type: Type.SetData }
+	| { type: Type.Loading }
+	| { type: Type.Idle };
+
+const createStateReducer = <D>() => (
+	state: State<D>,
+	action: Action<D>
+): State<D> => {
+	const { type } = action;
+	switch (type) {
+		case Type.SetData: {
+			return {
+				data: action.data,
+				stat: Stat.SUCCESS,
+				error: null,
+			} as State<D>;
+		}
+		case Type.SetError: {
+			return {
+				data: null,
+				stat: Stat.ERROR,
+				error: action.error,
+			} as State<D>;
+		}
+		case Type.Loading: {
+			return {
+				...state,
+				stat: Stat.LOADING,
+			} as State<D>;
+		}
+		case Type.Idle: {
+			return {
+				data: null,
+				stat: Stat.IDLE,
+				error: null,
+			} as State<D>;
+		}
+	}
+};
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+	const mountedRef = useMountRef();
+	return useCallback(
+		(...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
+		[dispatch, mountedRef]
+	);
 };
 const defaultConfig = {
 	throwOnError: false,
+};
+const defaultInitialState: State<null> = {
+	stat: Stat.IDLE,
+	data: null,
+	error: null,
 };
 export const useAsync = <D>(
 	initialState?: State<D>,
@@ -21,30 +83,26 @@ export const useAsync = <D>(
 ) => {
 	const [retry, setRetry] = useState<() => {}>(() => () => {});
 	const config = { ...defaultConfig, ...initConfig };
-	const [state, setState] = useState<State<D>>({
+
+	const [state, dispatch] = useReducer(createStateReducer<D>(), {
 		...defaultInitialState,
 		...initialState,
-	});
-	const mountedRef = useMountRef();
+	} as State<D>);
+
+	const safeDispatch = useSafeDispatch(dispatch);
 
 	const setData = useCallback(
-		(data: D) =>
-			setState({
-				data,
-				stat: 'success',
-				error: null,
-			}),
-		[]
+		(data: D) => {
+			safeDispatch({ data: data, type: Type.SetData });
+		},
+		[safeDispatch]
 	);
 
 	const setError = useCallback(
-		(error: Error) =>
-			setState({
-				error,
-				stat: 'error',
-				data: null,
-			}),
-		[]
+		(error: Error) => {
+			safeDispatch({ error: error, type: Type.SetError });
+		},
+		[safeDispatch]
 	);
 
 	// run trigger async request
@@ -61,14 +119,10 @@ export const useAsync = <D>(
 					run(runConfig.retry(), runConfig);
 				}
 			});
-			setState((prev) => {
-				return { ...prev, stat: 'loading' };
-			});
+			safeDispatch({ type: Type.Loading });
 			return promise
 				.then((data) => {
-					if (mountedRef.current) {
-						setData(data);
-					}
+					setData(data);
 					return data;
 				})
 				.catch((error) => {
@@ -79,13 +133,13 @@ export const useAsync = <D>(
 					return error;
 				});
 		},
-		[config.throwOnError, mountedRef, setData, setError]
+		[config.throwOnError, safeDispatch, setData, setError]
 	);
 	return {
-		isIdle: state.stat === 'idle',
-		isLoading: state.stat === 'loading',
-		isError: state.stat === 'error',
-		isSuccess: state.stat === 'success',
+		isIdle: state.stat === Stat.IDLE,
+		isLoading: state.stat === Stat.LOADING,
+		isError: state.stat === Stat.ERROR,
+		isSuccess: state.stat === Stat.SUCCESS,
 		run,
 		retry,
 		setData,

@@ -36,7 +36,16 @@ export default function AuthenticatedApp() {
 					path: '/projects',
 					element: (
 						<ProjectListScreen
-							setProjectModalOpen={setProjectModalOpen}
+							projectButton={
+								<ButtonNoPadding
+									onClick={() => {
+										setProjectModalOpen(true);
+									}}
+									type={'link'}
+								>
+									Create Project
+								</ButtonNoPadding>
+							}
 						/>
 					),
 				},
@@ -59,7 +68,18 @@ export default function AuthenticatedApp() {
 	);
 	return (
 		<Container>
-			<PageHeader setProjectModalOpen={setProjectModalOpen} />
+			<PageHeader
+				projectButton={
+					<ButtonNoPadding
+						onClick={() => {
+							setProjectModalOpen(true);
+						}}
+						type={'link'}
+					>
+						Create Project
+					</ButtonNoPadding>
+				}
+			/>
 			<Main>
 				<RouterProvider router={router} />
 				<Button
@@ -82,9 +102,7 @@ export default function AuthenticatedApp() {
 }
 
 type Return = Pick<ReturnType<typeof useAuth>, 'user' | 'logout'>;
-const PageHeader = (props: {
-	setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+const PageHeader = (props: { projectButton: JSX.Element }) => {
 	return (
 		<Header between={true}>
 			<HeaderLeft gap={true}>
@@ -96,9 +114,7 @@ const PageHeader = (props: {
 				>
 					<SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
 				</ButtonNoPadding>
-				<ProjectPopover
-					setProjectModalOpen={props.setProjectModalOpen}
-				/>
+				<ProjectPopover {...props} />
 				<h3>Users</h3>
 			</HeaderLeft>
 			<HeaderRight>
