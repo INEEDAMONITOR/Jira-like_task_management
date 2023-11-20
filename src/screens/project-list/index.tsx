@@ -6,20 +6,24 @@ import styled from '@emotion/styled';
 import { Typography, Row } from 'antd';
 import { useProjects } from 'utils/projects';
 import useUser from 'utils/user';
-import { useProjectSearchParams } from './util';
+import { useProjectModal, useProjectSearchParams } from './util';
+import { ButtonNoPadding } from 'components/lib';
 
-export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
+export const ProjectListScreen = () => {
 	useDocumentTitle('Project list', false);
 	const [params, setParams] = useProjectSearchParams();
 	const { isLoading, error, data: list, retry } = useProjects(
 		useDebounce(params, 200)
 	);
 	const { data: users } = useUser();
+	const { open } = useProjectModal();
 	return (
 		<Container>
 			<Row justify={'space-between'}>
 				<h1>Project list</h1>
-				{props.projectButton}
+				<ButtonNoPadding onClick={() => open()} type="link">
+					Create
+				</ButtonNoPadding>
 			</Row>
 
 			<SearchPanel
@@ -39,12 +43,11 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
 				dataSource={list ?? []}
 				loading={isLoading}
 				refresh={retry}
-				projectButton={props.projectButton}
 			/>
 		</Container>
 	);
 };
-ProjectListScreen.whyDidYouRender = true;
+// ProjectListScreen.whyDidYouRender = true;
 
 const Container = styled.div`
 	padding: 3.2rem;

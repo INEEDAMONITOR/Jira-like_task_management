@@ -12,6 +12,7 @@ import { cleanObject, subset } from 'utils';
  *
  */
 const useUrlQueryParam = <K extends string>(keys: K[]) => {
+	// useSearchParams: react router methods
 	const [searchParams, setSearchParam] = useSearchParams();
 	// Dependencies:
 	// 	prmitive type 		✅
@@ -31,6 +32,8 @@ const useUrlQueryParam = <K extends string>(keys: K[]) => {
 				...Object.fromEntries(searchParams),
 				...param,
 			}) as URLSearchParamsInit;
+			console.log(obj);
+
 			return setSearchParam(obj);
 		},
 	] as const;

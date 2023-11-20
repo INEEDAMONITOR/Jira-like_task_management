@@ -3,9 +3,11 @@ import { Button, Divider, List, Popover, Typography } from 'antd';
 import React from 'react';
 import { useProjects } from 'utils/projects';
 import { ButtonNoPadding } from './lib';
-function ProjectPopover(props: { projectButton: JSX.Element }) {
+import { useProjectModal } from 'screens/project-list/util';
+function ProjectPopover() {
 	const { data: projects, isLoading } = useProjects();
 	const pinnedProjects = projects?.filter((project) => project.pin === true);
+	const { open } = useProjectModal();
 	const content = (
 		<ContentContainer>
 			<Typography.Text type={'secondary'}>
@@ -19,7 +21,14 @@ function ProjectPopover(props: { projectButton: JSX.Element }) {
 				))}
 			</List>
 			<Divider />
-			{props.projectButton}
+			<ButtonNoPadding
+				onClick={() => {
+					open();
+				}}
+				type="link"
+			>
+				Create
+			</ButtonNoPadding>
 		</ContentContainer>
 	);
 	return (

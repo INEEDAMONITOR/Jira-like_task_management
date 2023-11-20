@@ -21,3 +21,20 @@ export const useProjectSearchParams = () => {
 	);
 	return [param, setUrlParams] as const;
 };
+
+export const useProjectModal = () => {
+	const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
+		'projectCreate',
+		'projectId',
+	]);
+
+	const open = (projectId: number | undefined = undefined) => {
+		setProjectCreate({
+			projectCreate: true,
+			projectId: projectId,
+		});
+	};
+	const close = () =>
+		setProjectCreate({ projectCreate: undefined, projectId: undefined });
+	return { isOpen: projectCreate === 'true', open, close } as const;
+};

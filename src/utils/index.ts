@@ -4,6 +4,11 @@ export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 export const isVoid = (value: unknown) =>
 	value === '' || value === null || value === undefined ? true : false;
 
+/**
+ * Delete the property with null value in an object
+ * @param object
+ * @returns cleaned object
+ */
 export const cleanObject = (object: { [key: string]: unknown }) => {
 	const result = { ...object };
 	Object.keys(result).forEach((key) => {
