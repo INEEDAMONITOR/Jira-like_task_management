@@ -1,12 +1,20 @@
-import { Dropdown, Menu, MenuProps, Rate, Table, TableProps } from 'antd';
-import Item from 'antd/lib/descriptions/Item';
+import {
+	Popover,
+	List as AntdList,
+	Table,
+	TableProps,
+	MenuProps,
+	Dropdown,
+} from 'antd';
 import { ButtonNoPadding } from 'components/lib';
 import { Pin } from 'components/pin';
 import dayjs from 'dayjs';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { User } from 'screens/project-list/search-panel';
 import { useEditProjects } from 'utils/projects';
+import { projectListActions } from '../../store/project-list.slice';
 
 export interface Project {
 	id: number;
@@ -20,7 +28,6 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
 	users: User[];
 	refresh?: () => void;
-	projectButton: JSX.Element;
 }
 
 export const List = ({ users, refresh, ...props }: ListProps) => {
@@ -28,6 +35,7 @@ export const List = ({ users, refresh, ...props }: ListProps) => {
 	const pinChangeHandler = (id: number, pin: boolean) => {
 		mutate({ id, pin }).then(refresh);
 	};
+	const dispatch = useDispatch();
 	return (
 		<Table
 			{...props}
@@ -99,24 +107,24 @@ export const List = ({ users, refresh, ...props }: ListProps) => {
 					render(value, project) {
 						const items: MenuProps['items'] = [
 							{
-								key: '1',
+								key: 'edit',
 								label: (
-									<Menu>
-										<Menu.Item key={'edit'}>
-											{props.projectButton}
-										</Menu.Item>
-										<Menu.Item key={'2'}>
-											<ButtonNoPadding type={'link'}>
-												Edit
-											</ButtonNoPadding>
-										</Menu.Item>
-									</Menu>
+									<ButtonNoPadding
+										onClick={() => {
+											dispatch(
+												projectListActions.openProjectModal()
+											);
+										}}
+										type="link"
+									>
+										Edit
+									</ButtonNoPadding>
 								),
 							},
 						];
 						return (
 							<Dropdown menu={{ items }}>
-								<ButtonNoPadding type={'link'}>
+								<ButtonNoPadding type="link">
 									...
 								</ButtonNoPadding>
 							</Dropdown>

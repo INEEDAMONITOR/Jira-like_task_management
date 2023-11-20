@@ -24,7 +24,6 @@ import ProjectModal from 'screens/project-list/project-modal';
 import ProjectPopover from 'components/projects-popover';
 
 export default function AuthenticatedApp() {
-	const [projectModalOpen, setProjectModalOpen] = useState(false);
 	const router = useMemo(
 		() =>
 			createBrowserRouter([
@@ -34,20 +33,7 @@ export default function AuthenticatedApp() {
 				},
 				{
 					path: '/projects',
-					element: (
-						<ProjectListScreen
-							projectButton={
-								<ButtonNoPadding
-									onClick={() => {
-										setProjectModalOpen(true);
-									}}
-									type={'link'}
-								>
-									Create Project
-								</ButtonNoPadding>
-							}
-						/>
-					),
+					element: <ProjectListScreen />,
 				},
 				{
 					path: '/projects/:projectID',
@@ -64,45 +50,22 @@ export default function AuthenticatedApp() {
 					],
 				},
 			]),
-		[setProjectModalOpen]
+		[]
 	);
 	return (
 		<Container>
-			<PageHeader
-				projectButton={
-					<ButtonNoPadding
-						onClick={() => {
-							setProjectModalOpen(true);
-						}}
-						type={'link'}
-					>
-						Create Project
-					</ButtonNoPadding>
-				}
-			/>
+			<PageHeader />
 			<Main>
 				<RouterProvider router={router} />
-				<Button
-					onClick={() => {
-						setProjectModalOpen(true);
-					}}
-				>
-					Open
-				</Button>
 			</Main>
 
-			<ProjectModal
-				projectModalOpen={projectModalOpen}
-				onClose={() => {
-					setProjectModalOpen(false);
-				}}
-			></ProjectModal>
+			<ProjectModal />
 		</Container>
 	);
 }
 
 type Return = Pick<ReturnType<typeof useAuth>, 'user' | 'logout'>;
-const PageHeader = (props: { projectButton: JSX.Element }) => {
+const PageHeader = () => {
 	return (
 		<Header between={true}>
 			<HeaderLeft gap={true}>
@@ -114,7 +77,7 @@ const PageHeader = (props: { projectButton: JSX.Element }) => {
 				>
 					<SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
 				</ButtonNoPadding>
-				<ProjectPopover {...props} />
+				<ProjectPopover />
 				<h3>Users</h3>
 			</HeaderLeft>
 			<HeaderRight>
