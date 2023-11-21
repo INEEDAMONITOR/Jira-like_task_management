@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/jira-like_task_management/static/css/main.c9a0d9d2.chunk.css",
+    "main.js": "/jira-like_task_management/static/js/main.46ffc84e.chunk.js",
+    "main.js.map": "/jira-like_task_management/static/js/main.46ffc84e.chunk.js.map",
+    "runtime-main.js": "/jira-like_task_management/static/js/runtime-main.5e75cd9e.js",
+    "runtime-main.js.map": "/jira-like_task_management/static/js/runtime-main.5e75cd9e.js.map",
+    "static/css/2.a3c67415.chunk.css": "/jira-like_task_management/static/css/2.a3c67415.chunk.css",
+    "static/js/2.52b46206.chunk.js": "/jira-like_task_management/static/js/2.52b46206.chunk.js",
+    "static/js/2.52b46206.chunk.js.map": "/jira-like_task_management/static/js/2.52b46206.chunk.js.map",
+    "static/js/3.998c0d71.chunk.js": "/jira-like_task_management/static/js/3.998c0d71.chunk.js",
+    "static/js/3.998c0d71.chunk.js.map": "/jira-like_task_management/static/js/3.998c0d71.chunk.js.map",
+    "index.html": "/jira-like_task_management/index.html",
+    "static/css/2.a3c67415.chunk.css.map": "/jira-like_task_management/static/css/2.a3c67415.chunk.css.map",
+    "static/css/main.c9a0d9d2.chunk.css.map": "/jira-like_task_management/static/css/main.c9a0d9d2.chunk.css.map",
+    "static/js/2.52b46206.chunk.js.LICENSE.txt": "/jira-like_task_management/static/js/2.52b46206.chunk.js.LICENSE.txt",
+    "static/media/left.e74de3ec.svg": "/jira-like_task_management/static/media/left.e74de3ec.svg",
+    "static/media/logo.6c866125.svg": "/jira-like_task_management/static/media/logo.6c866125.svg",
+    "static/media/right.b423a6cf.svg": "/jira-like_task_management/static/media/right.b423a6cf.svg",
+    "static/media/software-logo.ec204298.svg": "/jira-like_task_management/static/media/software-logo.ec204298.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5e75cd9e.js",
+    "static/css/2.a3c67415.chunk.css",
+    "static/js/2.52b46206.chunk.js",
+    "static/css/main.c9a0d9d2.chunk.css",
+    "static/js/main.46ffc84e.chunk.js"
+  ]
+}
