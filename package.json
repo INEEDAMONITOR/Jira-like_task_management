@@ -1,6 +1,7 @@
 {
 	"name": "jira-like_task_management",
 	"version": "0.1.0",
+	"homepage": "https://INEEDAMONITOR.github.io/jira-like_task_management",
 	"private": true,
 	"dependencies": {
 		"@craco/craco": "6",
@@ -16,6 +17,7 @@
 		"antd": "4.24.14",
 		"craco-less": "1.17.1",
 		"dayjs": "^1.11.9",
+		"gh-pages": "^6.1.0",
 		"jira-dev-tool": "^1.6.59",
 		"qs": "^6.9.4",
 		"react": "^17.0.1",
@@ -31,7 +33,9 @@
 		"start": "env DISABLE_NEW_JSX_TRANSFORM=true craco start",
 		"build": "env DISABLE_NEW_JSX_TRANSFORM=true craco build",
 		"test": "env DISABLE_NEW_JSX_TRANSFORM=true craco test",
-		"eject": "env DISABLE_NEW_JSX_TRANSFORM=true react-scripts eject"
+		"eject": "env DISABLE_NEW_JSX_TRANSFORM=true react-scripts eject",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build"
 	},
 	"eslintConfig": {
 		"rules": {
