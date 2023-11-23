@@ -1,10 +1,11 @@
+import { EDEADLK } from 'constants';
 import { useMemo } from 'react';
 import { shallowEqualObjects } from 'react-query/types/core/utils';
+import { useProject } from 'utils/projects';
 import useUrlQueryParam from 'utils/url';
 
 /**
  * Manage the search parameters in the project search screen
- *
  *
  * @returns
  * - `params`: the search params
@@ -23,18 +24,36 @@ export const useProjectSearchParams = () => {
 };
 
 export const useProjectModal = () => {
-	const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
-		'projectCreate',
-		'projectId',
-	]);
+	const [
+		{ projectCreate, editingProjectId },
+		setUrlParams,
+	] = useUrlQueryParam(['projectCreate', 'editingProjectId']);
 
-	const open = (projectId: number | undefined = undefined) => {
-		setProjectCreate({
+	const { data: editingProject, isLoading } = useProject(
+		Number(editingProjectId)
+	);
+	const startEdit = (projectId: number) =>
+		setUrlParams({
+			editingProjectId: projectId,
+		});
+
+	const open = () => {
+		setUrlParams({
 			projectCreate: true,
-			projectId: projectId,
 		});
 	};
-	const close = () =>
-		setProjectCreate({ projectCreate: undefined, projectId: undefined });
-	return { isOpen: projectCreate === 'true', open, close } as const;
+	const close = () => {
+		setUrlParams({
+			projectCreate: undefined,
+			editingProjectId: undefined,
+		});
+	};
+	return {
+		isOpen: projectCreate === 'true' || !!editingProjectId,
+		open,
+		close,
+		startEdit,
+		editingProject,
+		isLoading,
+	} as const;
 };

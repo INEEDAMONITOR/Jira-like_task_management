@@ -6,10 +6,9 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { User } from 'screens/project-list/search-panel';
-import { useEditProjects } from 'utils/projects';
+import { useEditProject } from 'utils/projects';
 import { useProjectModal, useProjectSearchParams } from './util';
 import { ColumnsType } from 'antd/lib/table/Table';
-import useUrlQueryParam from 'utils/url';
 
 export interface Project {
 	id: number;
@@ -25,7 +24,7 @@ interface ListProps extends TableProps<Project> {
 	refresh?: () => void;
 }
 const ListEditMenu = ({ value, project }: { value: any; project: Project }) => {
-	const { open } = useProjectModal();
+	const { startEdit } = useProjectModal();
 	const items: MenuProps['items'] = [
 		{
 			key: '1',
@@ -34,15 +33,15 @@ const ListEditMenu = ({ value, project }: { value: any; project: Project }) => {
 					<Menu.Item key={'edit'}>
 						<ButtonNoPadding
 							onClick={() => {
-								open(project.id);
+								startEdit(project.id);
 							}}
 							type={'link'}
 						>
 							Edit
 						</ButtonNoPadding>
 					</Menu.Item>
-					<Menu.Item key={'2'}>
-						<ButtonNoPadding type={'link'}>Other</ButtonNoPadding>
+					<Menu.Item key={'delete'}>
+						<ButtonNoPadding type={'link'}>delete</ButtonNoPadding>
 					</Menu.Item>
 				</Menu>
 			),
@@ -55,10 +54,10 @@ const ListEditMenu = ({ value, project }: { value: any; project: Project }) => {
 	);
 };
 
-export const List = ({ users, refresh, ...props }: ListProps) => {
-	const { mutate } = useEditProjects();
+export const List = ({ users, ...props }: ListProps) => {
+	const { mutate } = useEditProject();
 	const pinChangeHandler = (id: number, pin: boolean) => {
-		mutate({ id, pin }).then(refresh);
+		mutate({ id, pin });
 	};
 	const columns: ColumnsType<Project> = [
 		{

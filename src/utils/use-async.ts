@@ -114,10 +114,12 @@ export const useAsync = <D>(
 					`Argument of type '${typeof promise}' is not assignable to parameter of type 'Promise<D>'`
 				);
 			}
-			setRetry(() => () => {
-				if (runConfig?.retry) {
-					run(runConfig.retry(), runConfig);
-				}
+			setRetry(() => {
+				return () => {
+					if (runConfig?.retry) {
+						run(runConfig.retry(), runConfig);
+					}
+				};
 			});
 			safeDispatch({ type: Type.Loading });
 			return promise

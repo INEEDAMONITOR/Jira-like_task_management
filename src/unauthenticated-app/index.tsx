@@ -7,6 +7,7 @@ import logo from 'asset/logo.svg';
 import left from 'asset/left.svg';
 import right from 'asset/right.svg';
 import { useDocumentTitle } from 'utils';
+import { ErrorBox } from 'components/lib';
 export const UnauthenticatedApp = () => {
 	const [isRegister, setIsRegister] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
@@ -17,14 +18,7 @@ export const UnauthenticatedApp = () => {
 			<Background />
 			<ShadowCard>
 				<Title>Please {isRegister ? 'Sign UP' : 'Sign In'}</Title>
-
-				{error ? (
-					<Typography.Text type="danger">
-						{error.message}
-					</Typography.Text>
-				) : (
-					<></>
-				)}
+				<ErrorBox error={error} />
 				{isRegister ? (
 					<RegisterScreen onError={setError} />
 				) : (

@@ -1,7 +1,6 @@
 {
 	"name": "jira-like_task_management",
 	"version": "0.1.0",
-	"homepage": "https://INEEDAMONITOR.github.io/jira-like_task_management",
 	"private": true,
 	"dependencies": {
 		"@craco/craco": "6",
