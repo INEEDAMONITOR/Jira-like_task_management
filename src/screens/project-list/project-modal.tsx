@@ -30,7 +30,12 @@ export default function ProjectModal() {
 	}, [editingProject, form]);
 
 	return (
-		<Drawer width={'100%'} open={isOpen} onClose={closeHandler}>
+		<Drawer
+			forceRender={true}
+			width={'100%'}
+			open={isOpen}
+			onClose={closeHandler}
+		>
 			<Container>
 				{isLoading ?? <Spin size={'large'} />}
 				<h1>{title}</h1>

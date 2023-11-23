@@ -1,6 +1,4 @@
-import { EDEADLK } from 'constants';
 import { useMemo } from 'react';
-import { shallowEqualObjects } from 'react-query/types/core/utils';
 import { useProject } from 'utils/projects';
 import useUrlQueryParam from 'utils/url';
 

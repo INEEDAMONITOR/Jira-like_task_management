@@ -13,9 +13,6 @@ function App() {
 			<ErrorBoundary fallbackRender={FullPageErrorFallback}>
 				{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
 			</ErrorBoundary>
-			{/* {/* <errorboundary fallbackrender={fullpageerrorfallback}>
-				{user ? <authenticatedapp /> : <unauthenticatedapp />}
-			</errorboundary> */}
 		</div>
 	);
 }

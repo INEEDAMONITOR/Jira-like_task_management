@@ -67,7 +67,6 @@ const createUndoReducer = <T>() => (
 			};
 		}
 	}
-	return state;
 };
 
 export const useUndo = <T>(initPresent: T) => {

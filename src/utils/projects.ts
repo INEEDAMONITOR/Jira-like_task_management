@@ -1,9 +1,7 @@
 import { Project } from 'screens/project-list/list';
-import { useAsync } from './use-async';
-import { useCallback, useEffect } from 'react';
-import { cleanObject } from 'utils';
 import { useHttp } from './http';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useProjectSearchParams } from 'screens/project-list/util';
 
 /**
  * Project list State manager
@@ -33,6 +31,9 @@ export const useProject = (id?: number) => {
 export const useEditProject = () => {
 	const client = useHttp();
 	const queryClient = useQueryClient();
+	const [searchParams] = useProjectSearchParams();
+	const queryKey = ['projects', searchParams];
+
 	return useMutation(
 		(params: Partial<Project>) =>
 			client(`projects/${params.id}`, {
@@ -40,7 +41,27 @@ export const useEditProject = () => {
 				data: params,
 			}),
 		{
-			onSuccess: () => queryClient.invalidateQueries('projects'),
+			onSuccess: () => queryClient.invalidateQueries(queryKey),
+			async onMutate(target) {
+				const previousItems = queryClient.getQueryData(queryKey);
+				queryClient.setQueryData(queryKey, (old?: Project[]) => {
+					return (
+						old?.map((project) => {
+							if (project.id === target.id) {
+								return {
+									...project,
+									...target,
+								};
+							}
+							return project;
+						}) || []
+					);
+				});
+				return { previousItems };
+			},
+			onError(error, newItem, context) {
+				queryClient.setQueryData(queryKey, context?.previousItems);
+			},
 		}
 	);
 };
