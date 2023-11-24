@@ -14,7 +14,7 @@ import {
 	redirect,
 	useNavigate,
 } from 'react-router';
-import ProjectScreen from 'screens/project';
+import { ProjectScreen } from 'screens/project';
 import { createBrowserRouter } from 'react-router-dom';
 import { KanbanScreen } from 'screens/kanban';
 import EpicScreen from 'screens/epic';
@@ -25,17 +25,17 @@ import ProjectPopover from 'components/projects-popover';
 
 const MainContainer = ({ children }: { children: JSX.Element }) => {
 	return (
-		<Container>
-			<PageHeader />
-			<Main>{children}</Main>
-
-			<ProjectModal />
-		</Container>
+		<>
+			<Container>
+				<PageHeader />
+				<Main>{children}</Main>
+				<ProjectModal />
+			</Container>
+		</>
 	);
 };
 
 export default function AuthenticatedApp() {
-	const [projectModalOpen, setProjectModalOpen] = useState(false);
 	const router = useMemo(
 		() =>
 			createBrowserRouter([
@@ -74,7 +74,7 @@ export default function AuthenticatedApp() {
 					],
 				},
 			]),
-		[setProjectModalOpen]
+		[]
 	);
 
 	return <RouterProvider router={router} />;
@@ -124,7 +124,7 @@ const User = () => {
 };
 const Container = styled.div`
 	display: grid;
-	grid-template-rows: 6rem 1fr 6rem; // rows：1st row, 2se row, 3th row
+	grid-template-rows: 6rem 1fr; // rows：1st row, 2se row, 3th row
 	height: 100 vh;
 `;
 const Header = styled(Row)`
@@ -138,4 +138,6 @@ const HeaderRight = styled.div``;
 
 const Main = styled.main`
 	height: calc(100vh - 6rem);
+	display: flex;
+	overflow: hidden;
 `;

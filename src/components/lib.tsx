@@ -35,6 +35,7 @@ const FullPage = styled.div`
 	justify-content: center;
 	align-items: center;
 `;
+
 export const FullPageLoading = () => {
 	return (
 		<FullPage>
@@ -52,6 +53,13 @@ export const FullPageErrorFallback = ({ error }: { error: Error | null }) => (
 
 export const ButtonNoPadding = styled(Button)`
 	padding: 0;
+`;
+
+export const ScreenContainerWithPadding = styled.div`
+	padding: 3.2rem;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 `;
 
 // 类型守卫

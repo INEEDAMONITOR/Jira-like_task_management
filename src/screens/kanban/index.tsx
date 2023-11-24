@@ -6,13 +6,14 @@ import { KanbanColumn } from './kanban-column';
 import styled from '@emotion/styled';
 import { useHttp } from 'utils/http';
 import SearchPanel from './search-panel';
+import { ScreenContainerWithPadding } from 'components/lib';
 
 export const KanbanScreen = () => {
 	useDocumentTitle('Kanban');
 	const { data: kanbans } = useKanbans(useKanbanSearchParam());
 	const { data: currentProject } = useProjectInUrl();
 	return (
-		<div>
+		<ScreenContainerWithPadding>
 			<h1>{currentProject?.name} Kanban</h1>
 			<SearchPanel />
 			<ColumnContainer>
@@ -20,12 +21,11 @@ export const KanbanScreen = () => {
 					return <KanbanColumn key={kanban.id} kanban={kanban} />;
 				})}
 			</ColumnContainer>
-		</div>
+		</ScreenContainerWithPadding>
 	);
 };
 const ColumnContainer = styled.div`
 	display: flex;
-	flex-direction: row;
-	overflow: hidden;
-	margin-right: 2rem;
+	overflow-x: scroll;
+	flex: 1;
 `;
