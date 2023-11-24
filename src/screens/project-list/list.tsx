@@ -7,29 +7,16 @@ import {
 	Table,
 	TableProps,
 } from 'antd';
-import Item from 'antd/lib/descriptions/Item';
 import { ButtonNoPadding } from 'components/lib';
 import { Pin } from 'components/pin';
 import dayjs from 'dayjs';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { User } from 'screens/project-list/search-panel';
+import { User } from 'types/User';
 import { useDeleteProject, useEditProject } from 'utils/projects';
-import {
-	useProjectModal,
-	useProjectQueryKey,
-	useProjectSearchParams,
-} from './util';
+import { useProjectModal, useProjectQueryKey } from './util';
 import { ColumnsType } from 'antd/lib/table/Table';
-
-export interface Project {
-	id: number;
-	name: string;
-	personId: number;
-	pin: boolean;
-	organization: string;
-	created: number;
-}
+import { Project } from 'types/Project';
 
 interface ListProps extends TableProps<Project> {
 	users: User[];

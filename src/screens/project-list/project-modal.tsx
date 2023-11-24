@@ -24,8 +24,8 @@ export default function ProjectModal() {
 
 	const title = editingProject ? 'Edit Project' : 'Create Project';
 	const closeHandler = () => {
-		close();
 		form.resetFields();
+		close();
 	};
 	useEffect(() => {
 		form.setFieldsValue(editingProject);
