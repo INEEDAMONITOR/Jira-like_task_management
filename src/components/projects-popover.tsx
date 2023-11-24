@@ -8,6 +8,7 @@ function ProjectPopover() {
 	const { data: projects, isLoading } = useProjects();
 	const pinnedProjects = projects?.filter((project) => project.pin === true);
 	const { open } = useProjectModal();
+
 	const content = (
 		<ContentContainer>
 			<Typography.Text type={'secondary'}>

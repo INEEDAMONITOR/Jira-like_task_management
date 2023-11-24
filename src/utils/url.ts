@@ -11,9 +11,10 @@ import { cleanObject, subset } from 'utils';
  * - `setParams` function to change the query url by give param
  *
  */
-const useUrlQueryParam = <K extends string>(keys: K[]) => {
+export const useUrlQueryParam = <K extends string>(keys: K[]) => {
 	// useSearchParams: react router methods
-	const [searchParams, setSearchParam] = useSearchParams();
+	const [searchParams] = useSearchParams();
+	const setSearchParam = useSetUrlSearchParam();
 	// Dependencies:
 	// 	prmitive type 		✅
 	// 	state				✅
@@ -27,13 +28,19 @@ const useUrlQueryParam = <K extends string>(keys: K[]) => {
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 			[searchParams]
 		),
-		(param: Partial<{ [key in K]: unknown }>) => {
-			const obj = cleanObject({
-				...Object.fromEntries(searchParams),
-				...param,
-			}) as URLSearchParamsInit;
-			return setSearchParam(obj);
+		(params: Partial<{ [key in K]: unknown }>) => {
+			return setSearchParam(params);
 		},
 	] as const;
 };
-export default useUrlQueryParam;
+
+export const useSetUrlSearchParam = () => {
+	const [searchParams, setSearchParam] = useSearchParams();
+	return (param: Partial<{ [key in string]: unknown }>) => {
+		const obj = cleanObject({
+			...Object.fromEntries(searchParams),
+			...param,
+		}) as URLSearchParamsInit;
+		return setSearchParam(obj);
+	};
+};

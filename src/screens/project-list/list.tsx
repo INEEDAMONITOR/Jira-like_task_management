@@ -1,4 +1,12 @@
-import { Dropdown, Menu, MenuProps, Rate, Table, TableProps } from 'antd';
+import {
+	Dropdown,
+	Menu,
+	MenuProps,
+	Modal,
+	Rate,
+	Table,
+	TableProps,
+} from 'antd';
 import Item from 'antd/lib/descriptions/Item';
 import { ButtonNoPadding } from 'components/lib';
 import { Pin } from 'components/pin';
@@ -6,8 +14,12 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { User } from 'screens/project-list/search-panel';
-import { useEditProject } from 'utils/projects';
-import { useProjectModal, useProjectSearchParams } from './util';
+import { useDeleteProject, useEditProject } from 'utils/projects';
+import {
+	useProjectModal,
+	useProjectQueryKey,
+	useProjectSearchParams,
+} from './util';
 import { ColumnsType } from 'antd/lib/table/Table';
 
 export interface Project {
@@ -25,6 +37,17 @@ interface ListProps extends TableProps<Project> {
 }
 const ListEditMenu = ({ value, project }: { value: any; project: Project }) => {
 	const { startEdit } = useProjectModal();
+	const { mutate: deleteProject } = useDeleteProject(useProjectQueryKey());
+	const confirmDeleteProject = (id: number) => {
+		Modal.confirm({
+			title: 'Are you sure to delete this project?',
+			content: 'Click YES to delete',
+			okText: ' Yes',
+			onOk() {
+				deleteProject(id);
+			},
+		});
+	};
 	const items: MenuProps['items'] = [
 		{
 			key: '1',
@@ -40,7 +63,10 @@ const ListEditMenu = ({ value, project }: { value: any; project: Project }) => {
 							Edit
 						</ButtonNoPadding>
 					</Menu.Item>
-					<Menu.Item key={'delete'}>
+					<Menu.Item
+						onClick={() => confirmDeleteProject(project.id)}
+						key={'delete'}
+					>
 						<ButtonNoPadding type={'link'}>delete</ButtonNoPadding>
 					</Menu.Item>
 				</Menu>
@@ -55,7 +81,7 @@ const ListEditMenu = ({ value, project }: { value: any; project: Project }) => {
 };
 
 export const List = ({ users, ...props }: ListProps) => {
-	const { mutate } = useEditProject();
+	const { mutate } = useEditProject(useProjectQueryKey());
 	const pinChangeHandler = (id: number, pin: boolean) => {
 		mutate({ id, pin });
 	};

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
+import { cleanObject } from 'utils';
 import { useProject } from 'utils/projects';
-import useUrlQueryParam from 'utils/url';
+import { useSetUrlSearchParam, useUrlQueryParam } from 'utils/url';
 
 /**
  * Manage the search parameters in the project search screen
@@ -18,25 +19,38 @@ export const useProjectSearchParams = () => {
 		}),
 		[urlParams]
 	);
+
 	return [param, setUrlParams] as const;
 };
 
-export const useProjectModal = () => {
-	const [
-		{ projectCreate, editingProjectId },
-		setUrlParams,
-	] = useUrlQueryParam(['projectCreate', 'editingProjectId']);
+export const useProjectQueryKey = () => {
+	const [params] = useProjectSearchParams();
 
+	return ['projects', cleanObject(params)];
+};
+
+export const useProjectModal = () => {
+	// const [
+	// 	{ projectCreate, editingProjectId },
+	// 	setUrlParams,
+	// ] = useUrlQueryParam(['projectCreate', 'editingProjectId']);
+	const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
+		'projectCreate',
+	]);
+	const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam([
+		'editingProjectId',
+	]);
+	const setUrlParams = useSetUrlSearchParam();
 	const { data: editingProject, isLoading } = useProject(
 		Number(editingProjectId)
 	);
 	const startEdit = (projectId: number) =>
-		setUrlParams({
+		setEditingProjectId({
 			editingProjectId: projectId,
 		});
 
 	const open = () => {
-		setUrlParams({
+		setProjectCreate({
 			projectCreate: true,
 		});
 	};

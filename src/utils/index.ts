@@ -9,7 +9,10 @@ export const isVoid = (value: unknown) =>
  * @param object
  * @returns cleaned object
  */
-export const cleanObject = (object: { [key: string]: unknown }) => {
+export const cleanObject = (object?: { [key: string]: unknown }) => {
+	if (!object) {
+		return {};
+	}
 	const result = { ...object };
 	Object.keys(result).forEach((key) => {
 		const value = result[key];

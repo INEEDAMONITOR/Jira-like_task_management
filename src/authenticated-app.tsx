@@ -110,7 +110,6 @@ const User = () => {
 			key: 'logout',
 		},
 	];
-	console.log(user);
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		// Logout
 		if (key === 'logout') {
