@@ -5,6 +5,7 @@ import { Row } from 'components/lib';
 import { Button, Input } from 'antd';
 import { UserSelect } from 'components/user-select';
 import { TaskTypeSelect } from 'components/task-type-select';
+import { useEffect, useState } from 'react';
 function SearchPanel() {
 	const searchParam = useTaskSearchParam();
 	const setSearchParam = useSetUrlSearchParam();
@@ -16,13 +17,23 @@ function SearchPanel() {
 			name: undefined,
 		});
 	};
+	const [searchName, setSearchName] = useState('');
+	useEffect(() => {
+		const identifier = setTimeout(() => {
+			setSearchParam({ name: searchName });
+		}, 200);
+
+		return () => {
+			clearTimeout(identifier);
+		};
+	}, [searchName, setSearchParam]);
 	return (
 		<Row marginBottom={4} gap={true}>
 			<Input
 				style={{ width: '20rem' }}
 				placeholder={'name'}
-				value={searchParam.name}
-				onChange={(evt) => setSearchParam({ name: evt.target.value })}
+				value={searchName}
+				onChange={(evt) => setSearchName(evt.target.value)}
 			/>
 			<UserSelect
 				defaultOptionName="Agent"

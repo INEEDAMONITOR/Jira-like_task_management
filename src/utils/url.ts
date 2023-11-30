@@ -7,7 +7,8 @@ import { cleanObject, subset } from 'utils';
  * @param {string[]} keys - keys you want to check in the url query
  *
  * @return
- * - `params` the params in the url
+ * [`params`, `setParams`]
+ * - `params` Object the params in the url
  * - `setParams` function to change the query url by give param
  *
  */
