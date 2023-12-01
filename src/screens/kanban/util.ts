@@ -15,7 +15,7 @@ export const useProjectInUrl = () => useProject(useProjectIdInUrl());
 
 export const useKanbanSearchParam = () => ({ projectId: useProjectIdInUrl() });
 
-export const useKanbansQueryKey = () => ['kanbans', useKanbanSearchParam()];
+export const useKanbanQueryKey = () => ['kanbans', useKanbanSearchParam()];
 
 export const useTaskSearchParam = () => {
 	const [param, setParam] = useUrlQueryParam([

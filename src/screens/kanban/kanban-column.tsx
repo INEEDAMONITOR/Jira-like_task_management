@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Kanban } from 'types/kanban';
 import { useTasks } from 'utils/tasks';
-import { useKanbansQueryKey, useTaskModal, useTaskSearchParam } from './util';
+import { useKanbanQueryKey, useTaskModal, useTaskSearchParam } from './util';
 import { useTaskTypes } from 'utils/task-types';
 import taskIcon from 'asset/task.svg';
 import bugIcon from 'asset/bug.svg';
@@ -12,6 +12,7 @@ import { Task } from 'types/task';
 import { MarkedKeyWordText } from 'components/mark';
 import { useDeleteKanban } from 'utils/kanban';
 import { ButtonNoPadding, Row } from 'components/lib';
+import { Drag, Drop, DropChild } from 'components/drag-and-drop';
 const TaskTypeIcon = ({ id }: { id: number }) => {
 	const { data: taskTypes } = useTaskTypes();
 	const name = taskTypes?.find((taskType) => taskType.id === id)?.name;
@@ -49,28 +50,51 @@ const TaskCard = ({
 	);
 };
 
-export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+export const KanbanColumn = React.forwardRef<
+	HTMLDivElement,
+	{ kanban: Kanban }
+>(({ kanban, ...props }, ref) => {
 	const { data: allTasks } = useTasks(useTaskSearchParam());
 	const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
 	const { name } = useTaskSearchParam();
 	return (
-		<Container>
+		<Container ref={ref} {...props}>
 			<Row between={true}>
 				<h3>{kanban.name}</h3>
-				<More kanban={kanban} />
+				<More kanban={kanban} key={kanban.id} />
 			</Row>
 			<TaskContainer>
-				{tasks?.map((task) => (
-					<TaskCard task={task} searchName={name} />
-				))}
+				<Drop
+					type={'ROW'}
+					direction={'vertical'}
+					droppableId={`kanban${kanban.id}Tasks`}
+				>
+					<DropChild style={{ minHeight: '5px' }}>
+						{tasks?.map((task, index) => (
+							<Drag
+								key={task.id}
+								draggableId={`task${task.id}`}
+								index={index}
+							>
+								<div ref={ref}>
+									<TaskCard
+										task={task}
+										searchName={name}
+										key={task.id}
+									/>
+								</div>
+							</Drag>
+						))}
+					</DropChild>
+				</Drop>
 				<CreateTask kanbanId={kanban.id} />
 			</TaskContainer>
 		</Container>
 	);
-};
+});
 
 export const More = ({ kanban }: { kanban: Kanban }) => {
-	const { mutateAsync: deleteKanban } = useDeleteKanban(useKanbansQueryKey());
+	const { mutateAsync: deleteKanban } = useDeleteKanban(useKanbanQueryKey());
 	const startEdit = () => {
 		Modal.confirm({
 			okText: 'Delete',

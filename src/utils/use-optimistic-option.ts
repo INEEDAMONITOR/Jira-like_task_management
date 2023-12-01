@@ -1,4 +1,6 @@
 import { QueryKey, useQueryClient } from 'react-query';
+import { reorder } from './reorder';
+import { Task } from 'types/task';
 
 export const useConfig = (
 	queryKey: QueryKey,
@@ -32,7 +34,7 @@ export const useDeleteConfig = (
 ) =>
 	useConfig(
 		queryKey,
-		(target, old) => old?.filter((item) => item.id !== target.id) || [],
+		(target, old) => old?.filter((item) => item.id !== target.id) ?? [],
 		optionalOnSuccessQueryKey
 	);
 export const useEditConfig = (
@@ -45,7 +47,7 @@ export const useEditConfig = (
 			return (
 				old?.map((item) =>
 					item.id === target.id ? { ...item, ...target } : item
-				) || []
+				) ?? []
 			);
 		},
 		optionalOnSuccessQueryKey
@@ -57,5 +59,34 @@ export const useAddConfig = (
 	useConfig(
 		queryKey,
 		(target, old) => (old ? [...old, target] : []),
+		optionalOnSuccessQueryKey
+	);
+
+export const useReorderKanbanConfig = (
+	queryKey: QueryKey,
+	optionalOnSuccessQueryKey?: QueryKey
+) =>
+	useConfig(
+		queryKey,
+		(target, old) => {
+			return reorder({ list: old, ...target });
+		},
+		optionalOnSuccessQueryKey
+	);
+
+export const useReorderTaskConfig = (
+	queryKey: QueryKey,
+	optionalOnSuccessQueryKey?: QueryKey
+) =>
+	useConfig(
+		queryKey,
+		(target, old) => {
+			const orderedList = reorder({ list: old, ...target }) as Task[];
+			return orderedList.map((item) => {
+				return item.id === target.fromId
+					? { ...item, kanbanId: target.toKanbanId }
+					: item;
+			});
+		},
 		optionalOnSuccessQueryKey
 	);
