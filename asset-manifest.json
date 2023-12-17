@@ -1,29 +1,21 @@
 {
   "files": {
-    "main.css": "/jira-like_task_management/static/css/main.c9a0d9d2.chunk.css",
-    "main.js": "/jira-like_task_management/static/js/main.f8a73e4b.chunk.js",
-    "main.js.map": "/jira-like_task_management/static/js/main.f8a73e4b.chunk.js.map",
-    "runtime-main.js": "/jira-like_task_management/static/js/runtime-main.5e75cd9e.js",
-    "runtime-main.js.map": "/jira-like_task_management/static/js/runtime-main.5e75cd9e.js.map",
-    "static/css/2.a3c67415.chunk.css": "/jira-like_task_management/static/css/2.a3c67415.chunk.css",
-    "static/js/2.cee4a6c5.chunk.js": "/jira-like_task_management/static/js/2.cee4a6c5.chunk.js",
-    "static/js/2.cee4a6c5.chunk.js.map": "/jira-like_task_management/static/js/2.cee4a6c5.chunk.js.map",
-    "static/js/3.998c0d71.chunk.js": "/jira-like_task_management/static/js/3.998c0d71.chunk.js",
-    "static/js/3.998c0d71.chunk.js.map": "/jira-like_task_management/static/js/3.998c0d71.chunk.js.map",
-    "index.html": "/jira-like_task_management/index.html",
-    "static/css/2.a3c67415.chunk.css.map": "/jira-like_task_management/static/css/2.a3c67415.chunk.css.map",
-    "static/css/main.c9a0d9d2.chunk.css.map": "/jira-like_task_management/static/css/main.c9a0d9d2.chunk.css.map",
-    "static/js/2.cee4a6c5.chunk.js.LICENSE.txt": "/jira-like_task_management/static/js/2.cee4a6c5.chunk.js.LICENSE.txt",
-    "static/media/left.e74de3ec.svg": "/jira-like_task_management/static/media/left.e74de3ec.svg",
-    "static/media/logo.6c866125.svg": "/jira-like_task_management/static/media/logo.6c866125.svg",
-    "static/media/right.b423a6cf.svg": "/jira-like_task_management/static/media/right.b423a6cf.svg",
-    "static/media/software-logo.ec204298.svg": "/jira-like_task_management/static/media/software-logo.ec204298.svg"
+    "main.css": "/static/css/main.28754d41.css",
+    "main.js": "/static/js/main.a80cf385.js",
+    "static/js/377.1b92e885.chunk.js": "/static/js/377.1b92e885.chunk.js",
+    "static/media/left.svg": "/static/media/left.e74de3ec0611913bda20171ee936a782.svg",
+    "static/media/right.svg": "/static/media/right.b423a6cf7075ce3f4b85d573f75a00c3.svg",
+    "static/media/software-logo.svg": "/static/media/software-logo.ec20429850ea9088299d73d53647f340.svg",
+    "static/media/logo.svg": "/static/media/logo.6c866125ba1762184fc3d95cbe79c069.svg",
+    "static/media/task.svg": "/static/media/task.5d700768eff338de63c739c40e85939e.svg",
+    "static/media/bug.svg": "/static/media/bug.258cac112cb4ca8650141b05e78ce20c.svg",
+    "index.html": "/index.html",
+    "main.28754d41.css.map": "/static/css/main.28754d41.css.map",
+    "main.a80cf385.js.map": "/static/js/main.a80cf385.js.map",
+    "377.1b92e885.chunk.js.map": "/static/js/377.1b92e885.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.5e75cd9e.js",
-    "static/css/2.a3c67415.chunk.css",
-    "static/js/2.cee4a6c5.chunk.js",
-    "static/css/main.c9a0d9d2.chunk.css",
-    "static/js/main.f8a73e4b.chunk.js"
+    "static/css/main.28754d41.css",
+    "static/js/main.a80cf385.js"
   ]
 }
