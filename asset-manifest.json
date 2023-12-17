@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/jira-like_task_management/static/css/main.28754d41.css",
-    "main.js": "/jira-like_task_management/static/js/main.b012c544.js",
+    "main.js": "/jira-like_task_management/static/js/main.d019bc71.js",
     "static/js/377.1b92e885.chunk.js": "/jira-like_task_management/static/js/377.1b92e885.chunk.js",
     "static/media/left.svg": "/jira-like_task_management/static/media/left.e74de3ec0611913bda20171ee936a782.svg",
     "static/media/right.svg": "/jira-like_task_management/static/media/right.b423a6cf7075ce3f4b85d573f75a00c3.svg",
@@ -11,11 +11,11 @@
     "static/media/bug.svg": "/jira-like_task_management/static/media/bug.258cac112cb4ca8650141b05e78ce20c.svg",
     "index.html": "/jira-like_task_management/index.html",
     "main.28754d41.css.map": "/jira-like_task_management/static/css/main.28754d41.css.map",
-    "main.b012c544.js.map": "/jira-like_task_management/static/js/main.b012c544.js.map",
+    "main.d019bc71.js.map": "/jira-like_task_management/static/js/main.d019bc71.js.map",
     "377.1b92e885.chunk.js.map": "/jira-like_task_management/static/js/377.1b92e885.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.28754d41.css",
-    "static/js/main.b012c544.js"
+    "static/js/main.d019bc71.js"
   ]
 }
