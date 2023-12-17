@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.28754d41.css",
-    "main.js": "/static/js/main.3e40b4f7.js",
-    "static/js/377.1b92e885.chunk.js": "/static/js/377.1b92e885.chunk.js",
-    "static/media/left.svg": "/static/media/left.e74de3ec0611913bda20171ee936a782.svg",
-    "static/media/right.svg": "/static/media/right.b423a6cf7075ce3f4b85d573f75a00c3.svg",
-    "static/media/software-logo.svg": "/static/media/software-logo.ec20429850ea9088299d73d53647f340.svg",
-    "static/media/logo.svg": "/static/media/logo.6c866125ba1762184fc3d95cbe79c069.svg",
-    "static/media/task.svg": "/static/media/task.5d700768eff338de63c739c40e85939e.svg",
-    "static/media/bug.svg": "/static/media/bug.258cac112cb4ca8650141b05e78ce20c.svg",
-    "index.html": "/index.html",
-    "main.28754d41.css.map": "/static/css/main.28754d41.css.map",
-    "main.3e40b4f7.js.map": "/static/js/main.3e40b4f7.js.map",
-    "377.1b92e885.chunk.js.map": "/static/js/377.1b92e885.chunk.js.map"
+    "main.css": "http://localhost:4000/static/css/main.28754d41.css",
+    "main.js": "http://localhost:4000/static/js/main.e74f82fd.js",
+    "static/js/377.1b92e885.chunk.js": "http://localhost:4000/static/js/377.1b92e885.chunk.js",
+    "static/media/left.svg": "http://localhost:4000/static/media/left.e74de3ec0611913bda20171ee936a782.svg",
+    "static/media/right.svg": "http://localhost:4000/static/media/right.b423a6cf7075ce3f4b85d573f75a00c3.svg",
+    "static/media/software-logo.svg": "http://localhost:4000/static/media/software-logo.ec20429850ea9088299d73d53647f340.svg",
+    "static/media/logo.svg": "http://localhost:4000/static/media/logo.6c866125ba1762184fc3d95cbe79c069.svg",
+    "static/media/task.svg": "http://localhost:4000/static/media/task.5d700768eff338de63c739c40e85939e.svg",
+    "static/media/bug.svg": "http://localhost:4000/static/media/bug.258cac112cb4ca8650141b05e78ce20c.svg",
+    "index.html": "http://localhost:4000/index.html",
+    "main.28754d41.css.map": "http://localhost:4000/static/css/main.28754d41.css.map",
+    "main.e74f82fd.js.map": "http://localhost:4000/static/js/main.e74f82fd.js.map",
+    "377.1b92e885.chunk.js.map": "http://localhost:4000/static/js/377.1b92e885.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.28754d41.css",
-    "static/js/main.3e40b4f7.js"
+    "static/js/main.e74f82fd.js"
   ]
 }
