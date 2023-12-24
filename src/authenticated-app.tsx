@@ -23,6 +23,7 @@ import { useMemo, useState } from 'react';
 import ProjectModal from 'screens/project-list/project-modal';
 import ProjectPopover from 'components/projects-popover';
 
+import packageJson from '../package.json';
 const MainContainer = ({ children }: { children: JSX.Element }) => {
 	return (
 		<>
@@ -40,15 +41,29 @@ export default function AuthenticatedApp() {
 		() =>
 			createBrowserRouter([
 				{
-					path: '/',
+					path: `/`,
 					element: (
 						<MainContainer>
-							<Navigate to={'/projects'} replace={true} />
+							<Navigate
+								to={`${packageJson.homepage}`}
+								replace={true}
+							/>
 						</MainContainer>
 					),
 				},
 				{
-					path: '/projects',
+					path: `${packageJson.homepage}`,
+					element: (
+						<MainContainer>
+							<Navigate
+								to={`${packageJson.homepage}/projects`}
+								replace={true}
+							/>
+						</MainContainer>
+					),
+				},
+				{
+					path: `${packageJson.homepage}/projects`,
 					element: (
 						<MainContainer>
 							<ProjectListScreen />
@@ -56,7 +71,7 @@ export default function AuthenticatedApp() {
 					),
 				},
 				{
-					path: '/projects/:projectID',
+					path: `${packageJson.homepage}/projects/:projectID`,
 					element: (
 						<MainContainer>
 							<ProjectScreen />
@@ -114,6 +129,7 @@ const User = () => {
 		// Logout
 		if (key === 'logout') {
 			logout();
+			resetRoute();
 		}
 	};
 	return (

@@ -3,8 +3,8 @@ import { Kanban } from 'types/kanban';
 import { useTasks } from 'utils/tasks';
 import { useKanbanQueryKey, useTaskModal, useTaskSearchParam } from './util';
 import { useTaskTypes } from 'utils/task-types';
-import taskIcon from 'asset/task.svg';
-import bugIcon from 'asset/bug.svg';
+import TaskIcon from 'asset/task.svg';
+import BugIcon from 'asset/bug.svg';
 import styled from '@emotion/styled';
 import { Button, Card, Dropdown, MenuProps, Modal } from 'antd';
 import { CreateTask } from './create-task';
@@ -21,7 +21,7 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 	}
 	return (
 		<img
-			src={name === 'task' ? taskIcon : bugIcon}
+			src={name === 'task' ? TaskIcon : BugIcon}
 			alt={name === 'task' ? 'task' : 'bug'}
 		/>
 	);

@@ -8,36 +8,64 @@ import left from 'asset/left.svg';
 import right from 'asset/right.svg';
 import { useDocumentTitle } from 'utils';
 import { ErrorBox } from 'components/lib';
+import {
+	Navigate,
+	RouterProvider,
+	createBrowserRouter,
+} from 'react-router-dom';
+import packageJson from '../../package.json';
+
 export const UnauthenticatedApp = () => {
 	const [isRegister, setIsRegister] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 	useDocumentTitle(isRegister ? 'Sign Up' : 'Sign In');
-	return (
-		<Container>
-			<Header />
-			<Background />
-			<ShadowCard>
-				<Title>Please {isRegister ? 'Sign UP' : 'Sign In'}</Title>
-				<ErrorBox error={error} />
-				{isRegister ? (
-					<RegisterScreen onError={setError} />
-				) : (
-					<LoginScreen onError={setError} />
-				)}
-				<Divider />
 
-				{isRegister ? 'Have an account? ' : ' '}
-				<Button
-					type="link"
-					onClick={() => {
-						setIsRegister((prev) => !prev);
-					}}
-				>
-					{isRegister ? 'Sign In' : 'Sign UP'}
-				</Button>
-			</ShadowCard>
-		</Container>
-	);
+	const router = createBrowserRouter([
+		{
+			path: '/',
+			element: (
+				<Navigate to={`${packageJson.homepage}/`} replace={true} />
+			),
+		},
+		{
+			path: '/${packageJson.homepage}',
+			element: (
+				<Navigate to={`${packageJson.homepage}/`} replace={true} />
+			),
+		},
+		{
+			path: `${packageJson.homepage}/`,
+			element: (
+				<Container>
+					<Header />
+					<Background />
+					<ShadowCard>
+						<Title>
+							Please {isRegister ? 'Sign UP' : 'Sign In'}
+						</Title>
+						<ErrorBox error={error} />
+						{isRegister ? (
+							<RegisterScreen onError={setError} />
+						) : (
+							<LoginScreen onError={setError} />
+						)}
+						<Divider />
+
+						{isRegister ? 'Have an account? ' : ' '}
+						<Button
+							type="link"
+							onClick={() => {
+								setIsRegister((prev) => !prev);
+							}}
+						>
+							{isRegister ? 'Sign In' : 'Sign UP'}
+						</Button>
+					</ShadowCard>
+				</Container>
+			),
+		},
+	]);
+	return <RouterProvider router={router} />;
 };
 
 export const LongButton = styled(Button)`

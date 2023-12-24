@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-
+import packageJson from '../../package.json';
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 export const isVoid = (value: unknown) =>
 	value === '' || value === null || value === undefined ? true : false;
@@ -94,7 +94,11 @@ export const useDocumentTitle = (
 	}, [keepOnUnmount, oldTitle]);
 };
 
-export const resetRoute = () => (window.location.href = window.location.origin);
+/**
+ * Resets the current route by redirecting to the origin URL.
+ */
+export const resetRoute = () =>
+	(window.location.href = `${window.location.origin}${packageJson.homepage}`);
 
 /**
  * Return component mount state.

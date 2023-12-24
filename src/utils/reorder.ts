@@ -1,9 +1,9 @@
 /**
- * Optimistic update of the sort locally
- * @param fromId - The id of the item to be sorted
- * @param type - 'before' | 'after'
- * @param referenceId - Reference Id
- * @param list - List to be sorted, e.g. tasks, kanbans
+ * 在本地对排序进行乐观更新
+ * @param fromId 要排序的项目的id
+ * @param type 'before' | 'after'
+ * @param referenceId 参照id
+ * @param list 要排序的列表, 比如tasks, kanbans
  */
 export const reorder = ({
 	fromId,
@@ -17,6 +17,7 @@ export const reorder = ({
 	referenceId: number;
 }) => {
 	const copiedList = [...list];
+	// 找到fromId对应项目的下标
 	const movingItemIndex = copiedList.findIndex((item) => item.id === fromId);
 	if (!referenceId) {
 		return insertAfter(
@@ -31,7 +32,7 @@ export const reorder = ({
 };
 
 /**
- * In a list, put `from` before `to`.
+ * 在list中，把from放在to的前边
  * @param list
  * @param from
  * @param to
@@ -45,7 +46,7 @@ const insertBefore = (list: unknown[], from: number, to: number) => {
 };
 
 /**
- * In a list, put `from` after `to`.
+ * 在list中，把from放在to的后面
  * @param list
  * @param from
  * @param to
